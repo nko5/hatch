@@ -21,3 +21,7 @@ h2 {
 #vote-nko span {
   font-weight: bold;
 }
+
+#canvas {
+  display: inherit;
+}
