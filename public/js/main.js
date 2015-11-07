@@ -9,17 +9,13 @@ requirejs.config({
             "lib/q-xhr"
         ],
         'wavesurfer': [
-          '../components/wavesurfer.js/dist/wavesurfer.min'
+          '../components/wavesurfer/wavesurfer.amd'
         ]
     }
 });
 
-require(["canvas"], function(canvas) {
+require(["canvas", "player"], function(canvas, player) {
     "use strict";
     console.log("Canvas module loaded", canvas);
-});
-
-require(["player"], function(player) {
-    "use strict";
     console.log("Player module loaded", player);
 });
