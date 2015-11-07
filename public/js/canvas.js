@@ -40,11 +40,16 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
         ctx = canvas.getContext("2d");
         reader = new FileReader();
 
+        var imagediv = document.getElementById("image");
+
         reader.onloadend = function() {
             img = new Image();
             img.onload = function() {
-                canvas.width = img.width;
-                canvas.height = img.height;
+                canvas.style.width ='100%';
+                canvas.style.height='100vh';
+
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight
                 ctx.drawImage(img, 0, 0);
             };
             // Triggers load event on img

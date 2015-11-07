@@ -10,10 +10,10 @@ html(lang='en')
         h1 Node Knockout 2015 Project hatch
         .container
           .row
-            .ten.columns
+            .ten.columns#image
               label(for='upload').
-                  Upload your file here
-              input#upload(name='upload',type='file')
+                  Upload your file here:
+              input.button#upload(name='upload',type='file')
               canvas#canvas
             .two.columns
               div#vote-nko
