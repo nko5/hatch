@@ -12,13 +12,12 @@ if ('development' === env) {
 };
 
 // Get the dummy data
-require('./server/ddata.js');
+//var test = require('./server/ddata.json');
+//var parse = JSON.parse(test);
 
 var n = 0;
 var b = baudio(function (t) {
-    var x = Math.sin(t * 262 + Math.sin(n));
-    n += Math.sin(t);
-    return x;
+    return Math.sin(t * 400 * Math.PI * 2) + Math.sin(t * 500) * (t % 2 > 1);
 });
 b.play();
 
