@@ -1,4 +1,4 @@
-var express, app, env, port, baudio;
+var express, app, env, port, jade, baudio;
 
 express = require('express');
 baudio = require('baudio');
