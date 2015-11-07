@@ -45,8 +45,11 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
         reader.onloadend = function() {
             img = new Image();
             img.onload = function() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
+                canvas.style.width ='100%';
+                canvas.style.height='100vh';
+
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight
                 ctx.drawImage(img, 0, 0);
             };
             // Triggers load event on img
