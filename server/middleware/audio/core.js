@@ -6,7 +6,7 @@
 
     makeApi = function(audio) {
         // TODO: Cleanup
-        var test, hex2rgb, parseInput, i;
+        var test, hex2rgb, parseInput, i, base64stream;
 
         // Get the dummy data
         test = '[{"index":"1","r":"190","g":"85","b":"130","a":"0.5"}, {"index":"2","r":"110","g":"45","b":"90","a":"0.9"}]';
@@ -15,7 +15,7 @@
             var result;
 
             result = /([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})/i.exec(hex);
-            console.log("Converted", hex, result);
+            //console.log("Converted", hex, result);
             // result[0] conatins the input string hex
             return result ? {
                 r: parseInt(result[1], 16),
@@ -69,6 +69,7 @@
                     Math.sin(t * pixel.b) * (t % pixel.index > pixel.a);
             };
 
+            /*
             setTimeout(function(){
                 b = baudio(audioInput);
                 if (shallPlay) {
@@ -80,6 +81,16 @@
                     play: shallPlay
                 }));
             }, 3000);
+            */
+
+            base64stream = (function() {
+                var hex;
+
+                hex = Object.keys(JSON.parse(pixelArray.pixel));
+                return new Buffer(hex.join(";")).toString('base64');
+            })();
+
+            return base64stream;
         };
     };
 
