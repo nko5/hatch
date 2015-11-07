@@ -20,6 +20,7 @@
     "tests"
   ],
   "dependencies": {
-    "skeleton": "~2.0.4"
+    "skeleton": "~2.0.4",
+    "wavesurfer.js": "~1.0.47"
   }
 }
