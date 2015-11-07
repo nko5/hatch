@@ -1,4 +1,4 @@
-define(["q-xhr", "helpers/dom"], function(Q, dom) {
+define(["q-xhr", "helpers/dom", "player"], function(Q, dom, player) {
     "use strict";
     var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, rgb2hex, prepareImageData, informBackend, processAudio, processImage, processUpload;
 
@@ -68,6 +68,7 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
             play: execFlag
         }).then(function(response) {
             console.log('Q post works', response);
+            player.loadFromBase64(response.data.base64);
         }).catch(function(error) {
             console.log('Q post failed', error);
         });
