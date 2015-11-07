@@ -27,11 +27,11 @@ function loop() {
     });
     b.play();
 
-    if(i < 10){
+    if(i <= 10){
       loop();
     }
 
-  }, 3000);
+  }, 5000);
 }
 
 var b = baudio(function (t) {
