@@ -1,6 +1,6 @@
 define(["q-xhr", "helpers/dom"], function(Q, dom) {
     "use strict";
-    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, processAudio, processImage, processUpload;
+    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, processAudio, processImage, processUpload, pixel;
 
     upload = document.getElementById("upload");
     canvas = document.getElementById("canvas");
@@ -88,8 +88,15 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
         console.log('Q get failed', error);
     });
 
+    pixel = JSON.stringify({
+        "r": 24,
+        "g": 245,
+        "b": 0,
+        "a": 0.7
+    });
+
     Q.xhr.post('/api', {
-        say: 'hello'
+        pixel: pixel
     }).then(function(response) {
         console.log('Q post works', response);
     }).catch(function(error) {
