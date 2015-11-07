@@ -6,6 +6,7 @@
   "main": "./app.js",
   "dependencies": {
     "baudio": "^2.1.2",
+    "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "jade": "^1.11.0",
     "q": "^1.4.1",

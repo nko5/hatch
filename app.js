@@ -1,8 +1,9 @@
-var express, app, env, audioMiddleware, port;
+var express, baudio, app, bodyParser, audioMiddleware, env, port;
 
 express = require('express');
 baudio = require('baudio');
 app = express();
+bodyParser = require('body-parser');
 audioMiddleware = require('./server/middleware/audio');
 
 // Create a static file server
@@ -13,22 +14,25 @@ if ('development' === env) {
 };
 
 app.set('view engine', 'jade');
+
 app.get('/', function(req, res) {
     res.render('index', {});
 });
 
+// tell express to use bodyParser for interpreting POST requests
+app.use(bodyParser.json());  // support json bodies
+app.use(bodyParser.urlencoded({ extended: true }));  // Support encoded bodies
 app.route('/api')
     .get(function(req, res) {
         res.send('Fetch an object');
     })
     .post(function(req, res) {
+        audioMiddleware.loop(req.body);
         res.send('Create a new object');
     })
     .put(function(req, res) {
         res.send('Update an object');
     });
-
-// audioMiddleware.loop();
 
 port = 8080;
 app.listen(port);
