@@ -1,6 +1,6 @@
 define(["q-xhr", "helpers/dom"], function(Q, dom) {
     "use strict";
-    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, processAudio, processImage, processUpload, pixel;
+    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, informBackend, processAudio, processImage, processUpload;
 
     upload = document.getElementById("upload");
     canvas = document.getElementById("canvas");
@@ -32,6 +32,40 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
         }
     };
 
+    informBackend = function(data, execFlag) {
+        var pixel;
+
+        Q.xhr.get('/api').then(function(response) {
+            console.log('Q get works', response);
+        }).catch(function(error) {
+            console.log('Q get failed', error);
+        });
+
+        pixel = JSON.stringify({
+            "r": 24,
+            "g": 245,
+            "b": 0,
+            "a": 0.7
+        });
+
+        Q.xhr.post('/api', {
+            pixel: pixel,
+            play: execFlag
+        }).then(function(response) {
+            console.log('Q post works', response);
+        }).catch(function(error) {
+            console.log('Q post failed', error);
+        });
+
+        Q.xhr.put('/api', {
+            say: 'hello'
+        }).then(function(response) {
+            console.log('Q put works', response);
+        }).catch(function(error) {
+            console.log('Q put failed', error);
+        });
+    };
+
     processAudio = function(file) {
     };
 
@@ -51,6 +85,7 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
                 canvas.width = canvas.offsetWidth;
                 canvas.height = canvas.offsetHeight
                 ctx.drawImage(img, 0, 0);
+                informBackend(ctx.getImageData(0, 0, img.width, img.height), false);
             };
             // Triggers load event on img
             img.src = reader.result;
@@ -85,36 +120,6 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
     };
 
     upload.addEventListener('change', processUpload);
-
-    console.log('Submitting AJAX with', Q);
-    Q.xhr.get('/api').then(function(response) {
-        console.log('Q get works', response);
-    }).catch(function(error) {
-        console.log('Q get failed', error);
-    });
-
-    pixel = JSON.stringify({
-        "r": 24,
-        "g": 245,
-        "b": 0,
-        "a": 0.7
-    });
-
-    Q.xhr.post('/api', {
-        pixel: pixel
-    }).then(function(response) {
-        console.log('Q post works', response);
-    }).catch(function(error) {
-        console.log('Q post failed', error);
-    });
-
-    Q.xhr.put('/api', {
-        say: 'hello'
-    }).then(function(response) {
-        console.log('Q put works', response);
-    }).catch(function(error) {
-        console.log('Q put failed', error);
-    });
 
     return {
     };
