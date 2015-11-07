@@ -1,4 +1,5 @@
-(function() {
+// Main entry point of the app. Load dependencies here
+require(["canvas"], function(canvas) {
     "use strict";
-    console.log("This will be the main entry point for AMD.");
-})();
+    console.log("Canvas module loaded", canvas);
+});

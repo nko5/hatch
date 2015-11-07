@@ -1,0 +1,18 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(naem='viewport',content='width=device-width,initial-scale=1')
+        title Node Knockout 2015 Project hatch
+        link(rel='stylesheet',type='text/css',href='styles/main.css')
+    body
+        h1 Node Knockout 2015 Project hatch
+        div
+            label(for='upload').
+                Upload your file here
+            input#upload(name='upload',type='file')
+        canvas#canvas
+        div#vote-nko
+            span Vote for Us:
+            iframe(src='http://nodeknockout.com/iframe/hatch',frameborder=0,scrolling=no,allowtransparency=true,width=115,height=25)
+        script(type='text/javascript',data-main='js/main.js',src='js/lib/require.js')
