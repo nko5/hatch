@@ -15,5 +15,8 @@
   "scripts": {
     "start": "node app.js",
     "postinstall": "node scripts/postinstall.js"
+  },
+  "devDependencies": {
+    "bower": "^1.6.5"
   }
 }
