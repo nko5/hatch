@@ -16,3 +16,7 @@ h2 {
     font-family: "Merriweather", "Roboto", sans-serif;
     margin-top: 15px;
 }
+
+#vote-nko span {
+  font-weight: bold;
+}
