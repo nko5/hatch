@@ -1,6 +1,6 @@
 define(["q-xhr", "helpers/dom"], function(Q, dom) {
     "use strict";
-    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, rgb2hex, prepareImageData, informBackend, processAudio, processImage, processUpload;
+    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, rgb2hex, collectPixels, prepareImageData, informBackend, processAudio, processImage, processUpload;
 
     upload = document.getElementById("upload");
     canvas = document.getElementById("canvas");
@@ -34,21 +34,29 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
 
     rgb2hex = function(r, g, b) {
         if (r > 255 || g > 255 || b > 255) {
-            throw new Error("Invalid coulour: (" + r + ", " + g + ", " + b + ")");
+            throw new Error("Invalid colour: (" + r + ", " + g + ", " + b + ")");
         }
 
-        return ((r << 16) | (g << 8) | b).toString(16);
+        return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     };
 
-    prepareImageData = function(imageData) {
-        var pixels, i, len, pixel;
-        pixels = [];
+    collectPixels = function(imageData) {
+        var pixels, i, len, pixel, hex;
+        pixels = {};
 
         for (i = 0, len = imageData.length; i < len; i += 4) {
             pixel = imageData.subarray(i, i+4);
-            pixels.push(rgb2hex(pixel[0], pixel[1], pixel[2]));
+            hex = rgb2hex(pixel[0], pixel[1], pixel[2]);
+            if (!pixels[hex]) {
+                pixels[hex] = [];
+            }
+            pixels[hex].push(i / 4);
         }
         return pixels;
+    };
+
+    prepareImageData = function(imageData) {
+        return collectPixels(imageData);
     };
 
     informBackend = function(image, execFlag) {
@@ -61,7 +69,6 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
         });
 
         pixels = JSON.stringify(prepareImageData(image.data));
-        console.log("Transmitting", pixels);
 
         Q.xhr.post('/api', {
             pixel: pixels,
@@ -100,7 +107,7 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
                 canvas.width = canvas.offsetWidth;
                 canvas.height = canvas.offsetHeight
                 ctx.drawImage(img, 0, 0);
-                informBackend(ctx.getImageData(0, 0, img.width, img.height), false);
+                informBackend(ctx.getImageData(0, 0, img.width, img.height), true);
             };
             // Triggers load event on img
             img.src = reader.result;
