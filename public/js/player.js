@@ -1,4 +1,4 @@
-define(["wavesurfer"], function(wavesurfer) {
+define(["wavesurfer"], function(WaveSurfer) {
   "use strict"
 
   var wavesurfer = Object.create(WaveSurfer);
