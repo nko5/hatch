@@ -20,15 +20,17 @@ app.get('/', function(req, res) {
 });
 
 // tell express to use bodyParser for interpreting POST requests
-app.use(bodyParser.json({ limit: '1mb' }));  // support json bodies
+app.use(bodyParser.json({ limit: '5mb' }));  // support json bodies
 app.use(bodyParser.urlencoded({ extended: true }));  // Support encoded bodies
 app.route('/api')
     .get(function(req, res) {
         res.send('Fetch an object');
     })
     .post(function(req, res) {
-        audioMiddleware.loop(req.body);
-        res.send('Create a new object');
+        var b64;
+
+        b64 = audioMiddleware.loop(req.body);
+        res.send(JSON.stringify({'base64': b64}));
     })
     .put(function(req, res) {
         res.send('Update an object');

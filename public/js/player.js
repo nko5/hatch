@@ -1,10 +1,10 @@
 define(["wavesurfer"], function(WaveSurfer) {
   "use strict";
 
-  var wavesurfer, base64ToArrayBuffer, loadFromBase64;
+  var wavesurfer, base64ToArrayBuffer, loadFromBlob, loadFromBase64;
   
   wavesurfer = Object.create(WaveSurfer);
-  console.log(wavesurfer);
+  console.log("WaveSurfer instance", wavesurfer, WaveSurfer);
 
   wavesurfer.init({
     container: '#player',
@@ -31,15 +31,20 @@ define(["wavesurfer"], function(WaveSurfer) {
       return bytes.buffer;
   };
 
+  loadFromBlob = function(blob) {
+      wavesurfer.loadBlob(blob);
+  };
+
   loadFromBase64 = function(base64) {
       var arrayBuffer;
 
-      base64 = "data:audio/mp3;base64," + base64;
+      // base64 = "data:audio/mp3;base64," + base64;
 
       arrayBuffer = base64ToArrayBuffer(base64);
       wavesurfer.loadArrayBuffer(arrayBuffer);
   };
   return {
+      loadFromBlob: loadFromBlob,
       loadFromBase64: loadFromBase64
   };
 });
