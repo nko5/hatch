@@ -82,11 +82,28 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
     upload.addEventListener('change', processUpload);
 
     console.log('Submitting AJAX with', Q);
-    Q.xhr.get('http://jsonplaceholder.typicode.com/posts/1').then(function(response) {
-        console.log('Q works', response);
+    Q.xhr.get('/api').then(function(response) {
+        console.log('Q get works', response);
     }).catch(function(error) {
-        console.log('Q failed', error);
-    });;
+        console.log('Q get failed', error);
+    });
+
+    Q.xhr.post('/api', {
+        say: 'hello'
+    }).then(function(response) {
+        console.log('Q post works', response);
+    }).catch(function(error) {
+        console.log('Q post failed', error);
+    });
+
+    Q.xhr.put('/api', {
+        say: 'hello'
+    }).then(function(response) {
+        console.log('Q put works', response);
+    }).catch(function(error) {
+        console.log('Q put failed', error);
+    });
+
     return {
     };
 });
