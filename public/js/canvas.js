@@ -1,4 +1,4 @@
-define(function() {
+define(["q-xhr"], function(Q) {
     "use strict";
     var upload, canvas, previewImage;
 
@@ -29,6 +29,13 @@ define(function() {
     };
 
     upload.addEventListener('change', previewImage);
+
+    console.log('Submitting AJAX with', Q);
+    Q.xhr.get('http://jsonplaceholder.typicode.com/posts/1').then(function(response) {
+        console.log('Q works', response);
+    }).catch(function(error) {
+        console.log('Q failed', error);
+    });;
     return {
         previewImage: previewImage
     }
