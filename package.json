@@ -5,6 +5,7 @@
   "author": "Node Knockout Team <all@nodeknockout.com>",
   "main": "./app.js",
   "dependencies": {
+    "baudio": "^2.1.2",
     "express": "3.x.x",
     "requirejs": "^2.1.20"
   },

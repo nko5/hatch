@@ -1,6 +1,7 @@
 var express, app, env, port;
 
 express = require('express');
+var baudio = require('baudio');
 app = express();
 
 // Create a static file server
@@ -11,7 +12,15 @@ if ('development' === env) {
 };
 
 // Get the dummy data
-require('./server/ddata.js');
+//require('./server/ddata.js');
+
+var n = 0;
+var b = baudio(function (t) {
+    var x = Math.sin(t * 262 + Math.sin(n));
+    n += Math.sin(t);
+    return x;
+});
+b.play();
 
 port = 8080;
 app.listen(port);
