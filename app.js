@@ -20,7 +20,7 @@ app.get('/', function(req, res) {
 });
 
 // tell express to use bodyParser for interpreting POST requests
-app.use(bodyParser.json());  // support json bodies
+app.use(bodyParser.json({ limit: '1024kb' }));  // support json bodies
 app.use(bodyParser.urlencoded({ extended: true }));  // Support encoded bodies
 app.route('/api')
     .get(function(req, res) {

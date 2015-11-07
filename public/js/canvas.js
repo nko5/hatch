@@ -1,6 +1,6 @@
 define(["q-xhr", "helpers/dom"], function(Q, dom) {
     "use strict";
-    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, informBackend, processAudio, processImage, processUpload;
+    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, rgb2hex, prepareImageData, informBackend, processAudio, processImage, processUpload;
 
     upload = document.getElementById("upload");
     canvas = document.getElementById("canvas");
@@ -32,8 +32,27 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
         }
     };
 
-    informBackend = function(data, execFlag) {
-        var pixel;
+    rgb2hex = function(r, g, b) {
+        if (r > 255 || g > 255 || b > 255) {
+            throw new Error("Invalid coulour: (" + r + ", " + g + ", " + b + ")");
+        }
+
+        return ((r << 16) | (g << 8) | b).toString(16);
+    };
+
+    prepareImageData = function(imageData) {
+        var pixels, i, len, pixel;
+        pixels = [];
+
+        for (i = 0, len = imageData.length; i < len; i += 4) {
+            pixel = imageData.subarray(i, i+4);
+            pixels.push(rgb2hex(pixel[0], pixel[1], pixel[2]));
+        }
+        return pixels;
+    };
+
+    informBackend = function(image, execFlag) {
+        var pixels;
 
         Q.xhr.get('/api').then(function(response) {
             console.log('Q get works', response);
@@ -41,15 +60,11 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
             console.log('Q get failed', error);
         });
 
-        pixel = JSON.stringify({
-            "r": 24,
-            "g": 245,
-            "b": 0,
-            "a": 0.7
-        });
+        pixels = JSON.stringify(prepareImageData(image.data));
+        console.log("Transmitting", pixels);
 
         Q.xhr.post('/api', {
-            pixel: pixel,
+            pixel: pixels,
             play: execFlag
         }).then(function(response) {
             console.log('Q post works', response);

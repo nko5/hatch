@@ -43,6 +43,7 @@
                 if (typeof parse !== "object") {
                     parse = JSON.parse(parse);
                 }
+                console.log("Current pixel", i, parse[i]);
                 pixel = parse[i] ? parse[i] : parse;
                 // sin(t * r * g * Pi) + sin(t * b) * (t % index > a)
                 return Math.sin(t * pixel.r * Math.PI * pixel.g) +
