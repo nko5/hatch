@@ -1,6 +1,6 @@
 define(["q-xhr", "helpers/dom"], function(Q, dom) {
     "use strict";
-    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, previewImage;
+    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, processAudio, processImage, processUpload;
 
     upload = document.getElementById("upload");
     canvas = document.getElementById("canvas");
@@ -32,17 +32,11 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
         }
     };
 
-    previewImage = function() {
-        var file, ctx, reader, img;
+    processAudio = function(file) {
+    };
 
-        file = upload.files[0];
-        clearErrorMessages();
-
-        if (file.size > MAX_FILE_SIZE) {
-            fileToLarge(file.size);
-            return;
-        }
-
+    processImage = function(file) {
+        var ctx, reader, img;
         ctx = canvas.getContext("2d");
         reader = new FileReader();
 
@@ -61,7 +55,31 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
         reader.readAsDataURL(file);
     };
 
-    upload.addEventListener('change', previewImage);
+    processUpload = function() {
+        var audioMimeTypes, imageMimeTypes, file;
+
+        audioMimeTypes = ["audio/mpeg"];
+        imageMimeTypes = ["image/jpeg", "image/png"];
+
+        file = upload.files[0];
+        canvas.width = canvas.width; // Clear canvas
+        clearErrorMessages();
+
+        if (file.size > MAX_FILE_SIZE) {
+            fileToLarge(file.size);
+            return;
+        }
+
+        if (audioMimeTypes.indexOf(file.type) > -1) {
+            processAudio(file);
+        };
+
+        if (imageMimeTypes.indexOf(file.type) > -1) {
+            processImage(file);
+        }
+    };
+
+    upload.addEventListener('change', processUpload);
 
     console.log('Submitting AJAX with', Q);
     Q.xhr.get('http://jsonplaceholder.typicode.com/posts/1').then(function(response) {
@@ -70,6 +88,5 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
         console.log('Q failed', error);
     });;
     return {
-        previewImage: previewImage
-    }
+    };
 });
