@@ -1,14 +1,21 @@
 define(["q-xhr"], function(Q) {
     "use strict";
-    var upload, canvas, previewImage;
+    var upload, canvas, MAX_FILE_SIZE, previewImage;
 
     upload = document.getElementById("upload");
     canvas = document.getElementById("canvas");
+    MAX_FILE_SIZE = 1 * 1000 * 1000; // 1 mB
 
     previewImage = function() {
         var file, ctx, reader, img;
 
         file = upload.files[0];
+
+        if (file.size > MAX_FILE_SIZE) {
+            console.log("File too large", file);
+            return;
+        }
+
         ctx = canvas.getContext("2d");
         reader = new FileReader();
         console.log("previewImage", file, ctx, reader);
