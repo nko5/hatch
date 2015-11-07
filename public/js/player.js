@@ -8,15 +8,13 @@ define(["wavesurfer"], function(WaveSurfer) {
 
   wavesurfer.init({
     container: '#player',
-    waveColor: 'violet',
-    progressColor: 'purple'
+    waveColor: 'blue',
+    progressColor: 'blue'
   });
 
   wavesurfer.on('ready', function () {
       wavesurfer.play();
   });
-
-  //wavesurfer.load('../test.mp3');
 
   base64ToArrayBuffer = function(base64) {
       var binaryString, i, len, bytes;
@@ -43,6 +41,9 @@ define(["wavesurfer"], function(WaveSurfer) {
       arrayBuffer = base64ToArrayBuffer(base64);
       wavesurfer.loadArrayBuffer(arrayBuffer);
   };
+
+  document.querySelector('#play_stop').addEventListener('click', wavesurfer.playPause.bind(wavesurfer));
+
   return {
       loadFromBlob: loadFromBlob,
       loadFromBase64: loadFromBase64
