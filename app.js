@@ -12,7 +12,7 @@ if ('development' === env) {
 };
 
 // Get the dummy data
-//require('./server/ddata.js');
+require('./server/ddata.js');
 
 var n = 0;
 var b = baudio(function (t) {
