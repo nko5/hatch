@@ -5,8 +5,8 @@ define(["wavesurfer"], function(wavesurfer) {
 
   wavesurfer.init({
     container: '#player',
-    waveColor: 'violet',
-    progressColor: 'purple'
+    waveColor: 'blue',
+    progressColor: 'blue'
   });
 
   wavesurfer.on('ready', function () {
@@ -14,5 +14,7 @@ define(["wavesurfer"], function(wavesurfer) {
   });
 
   wavesurfer.load('../test.mp3');
+
+  document.querySelector('[id="play_stop"]').addEventListener('click', wavesurfer.playPause.bind(wavesurfer));
 
 });
