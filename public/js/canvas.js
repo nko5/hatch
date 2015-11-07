@@ -1,24 +1,50 @@
-define(["q-xhr"], function(Q) {
+define(["q-xhr", "helpers/dom"], function(Q, dom) {
     "use strict";
-    var upload, canvas, MAX_FILE_SIZE, previewImage;
+    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, previewImage;
 
     upload = document.getElementById("upload");
     canvas = document.getElementById("canvas");
     MAX_FILE_SIZE = 1 * 1000 * 1000; // 1 mB
 
+    clearErrorMessages = function() {
+        var uploadContainer;
+
+        uploadContainer = upload.parentElement;
+        if (dom.hasChild(uploadContainer, ".error")) {
+            dom.removeChildren(uploadContainer, ".error");
+        }
+    };
+
+    fileToLarge = function(filesize) {
+        var uploadContainer, errorMessage, errorContainer;
+
+        uploadContainer = upload.parentElement;
+        errorMessage = 'Sorry, your file (' + filesize + ' bytes) is larger than our limit of ' + MAX_FILE_SIZE + ' bytes.';
+
+        if (dom.hasChild(uploadContainer, ".error")) {
+            errorContainer = uploadContainer.getElementsByClassName("error")[0];
+            errorContainer.innerHTML = errorMessage;
+        } else {
+            errorContainer = document.createElement('div');
+            errorContainer.classList.add('error');
+            errorContainer.appendChild(document.createTextNode(errorMessage));
+            uploadContainer.appendChild(errorContainer);
+        }
+    };
+
     previewImage = function() {
         var file, ctx, reader, img;
 
         file = upload.files[0];
+        clearErrorMessages();
 
         if (file.size > MAX_FILE_SIZE) {
-            console.log("File too large", file);
+            fileToLarge(file.size);
             return;
         }
 
         ctx = canvas.getContext("2d");
         reader = new FileReader();
-        console.log("previewImage", file, ctx, reader);
 
         reader.onloadend = function() {
             img = new Image();
