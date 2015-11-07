@@ -13,6 +13,6 @@ define(["wavesurfer"], function(wavesurfer) {
       wavesurfer.play();
   });
 
-  wavesurfer.load('http://www.stephaniequinn.com/Music/Allegro%20from%20Duet%20in%20C%20Major.mp3');
+  wavesurfer.load('../test.mp3');
 
 });

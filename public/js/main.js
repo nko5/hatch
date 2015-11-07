@@ -2,13 +2,13 @@
 // paths property will work as fallback route, if a dependency could not be found in baseUrl
 requirejs.config({
     paths: {
-        q: [
+        'q': [
             "lib/q"
         ],
-        "q-xhr": [
+        'q-xhr': [
             "lib/q-xhr"
         ],
-        "wavesurfer": [
+        'wavesurfer': [
           '../components/wavesurfer.js/dist/wavesurfer.min'
         ]
     }
