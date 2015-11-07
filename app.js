@@ -7,8 +7,13 @@ app = express();
 // app.configure() is depreacted, c.f. https://github.com/strongloop/express/wiki/Migrating-from-3.x-to-4.x#appconfigure
 env = process.env.NODE_ENV || 'development';
 if ('development' === env) {
-  app.use(express.static(__dirname + '/public'));
+    app.use(express.static(__dirname + '/public'));
 };
+
+app.set('view engine', 'jade');
+app.get('/', function(req, res) {
+    res.render('index', {});
+});
 
 // Get the dummy data
 require('./server/ddata.js');
