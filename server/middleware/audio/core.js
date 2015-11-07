@@ -6,20 +6,27 @@
 
     makeApi = function(audio) {
         // TODO: Cleanup
-        var test, parse, i, b;
+        var test, parse;
 
         // Get the dummy data
         test = '[{"index":"1","r":"190","g":"85","b":"130","a":"0.5"}, {"index":"2","r":"110","g":"45","b":"90","a":"0.9"}]';
         parse = JSON.parse(test);
 
-        i = 0;
-
         audio.loop = function() {
+            var audioInput, b, i;
+
+            i = 0;
+
             setTimeout(function(){
-                var b = baudio(function (t) {
-                    return Math.sin(t * parse[i].r * Math.PI * parse[i].g) +
-                        Math.sin(t * parse[i].b) * (t % parse[i].index > parse[i].a);
-                });
+                audioInput = function(t) {
+                    var pixel;
+
+                    pixel = parse[i];
+                    // sin(t * r * g * Pi) + sin(t * b) * (t % index > a)
+                    return Math.sin(t * pixel.r * Math.PI * pixel.g) +
+                        Math.sin(t * pixel.b) * (t % pixel.index > pixel.a);
+                };
+                b = baudio(audioInput);
                 b.play();
                 i++;
                 if(i <= test.length-1){
