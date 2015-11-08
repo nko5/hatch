@@ -6,8 +6,8 @@ define(["audio", "canvas", "helpers/dom"], function(audio, canvas, dom) {
      * Delegates the uploaded file to the respective module method.
      *
      * @module upload
-     * @requires canvas
      * @requires audio
+     * @requires canvas
      * @requires helper/dom
      */
     exports = {};
@@ -54,14 +54,13 @@ define(["audio", "canvas", "helpers/dom"], function(audio, canvas, dom) {
      *
      * @listens change
      */
-    exports.processUpload = function() {
+    exports.processUpload = function(event) {
         var audioMimeTypes, imageMimeTypes, file;
 
         audioMimeTypes = ["audio/mpeg"];
         imageMimeTypes = ["image/jpeg", "image/png"];
 
-        file = upload.files[0];
-        canvas.width = canvas.width; // Clear canvas
+        file = event.target.files[0];
         exports.clearErrorMessages();
 
         if (file.size > MAX_FILE_SIZE) {

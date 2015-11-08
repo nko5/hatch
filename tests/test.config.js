@@ -4,6 +4,9 @@ requirejs.config({
         chai: [
             "../tests/lib/chai"
         ],
+        testHelper: [
+            "../tests/lib/testHelper"
+        ],
         q: [
             "../components/q/q"
         ],
@@ -28,7 +31,8 @@ requirejs.config({
 // require([specs], kick_off_mocha)
 require([
     "./tests/specs/test.audio.js",
-    "./tests/specs/test.canvas.js"
+    "./tests/specs/test.canvas.js",
+    "./tests/specs/test.upload.js"
 ], function() {
     mocha.run();
 });
