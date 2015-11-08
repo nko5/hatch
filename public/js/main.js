@@ -6,7 +6,7 @@ requirejs.config({
             "../components/q/q"
         ],
         socketio: [
-            "../components/socket/socket-io"
+            "../components/socket/socket.io"
         ],
         "q-xhr": [
             "../components/q-xhr/q-xhr"
