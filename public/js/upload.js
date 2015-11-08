@@ -1,19 +1,24 @@
-/**
- * Delegates the uploaded file to the respective module method.
- *
- * @module upload
- * @requires canvas
- * @requires audio
- * @requires helper/dom
- */
 define(["audio", "canvas", "helpers/dom"], function(audio, canvas, dom) {
     "use strict";
-    var upload, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, processUpload;
+    var exports, upload, MAX_FILE_SIZE, processUpload;
+
+    /**
+     * Delegates the uploaded file to the respective module method.
+     *
+     * @module upload
+     * @requires canvas
+     * @requires audio
+     * @requires helper/dom
+     */
+    exports = {};
 
     upload = document.getElementById("upload");
     MAX_FILE_SIZE = 1 * 1000 * 1000; // 1 mB
 
-    clearErrorMessages = function() {
+    /**
+     * Clears pending error message from screen.
+     */
+    exports.clearErrorMessages = function() {
         var uploadContainer;
 
         uploadContainer = upload.parentElement;
@@ -22,7 +27,12 @@ define(["audio", "canvas", "helpers/dom"], function(audio, canvas, dom) {
         }
     };
 
-    fileToLarge = function(filesize) {
+    /**
+     * Displays a message, that the uploaded file is too large to submit.
+     *
+     * @param {Number} filesize - Size of the file to upload in bytes.
+     */
+    exports.fileToLarge = function(filesize) {
         var uploadContainer, errorMessage, errorContainer;
 
         uploadContainer = upload.parentElement;
@@ -39,7 +49,12 @@ define(["audio", "canvas", "helpers/dom"], function(audio, canvas, dom) {
         }
     };
 
-    processUpload = function() {
+    /**
+     * Decide which module shall process the file if it's small enough.
+     *
+     * @listens change
+     */
+    exports.processUpload = function() {
         var audioMimeTypes, imageMimeTypes, file;
 
         audioMimeTypes = ["audio/mpeg"];
@@ -47,10 +62,10 @@ define(["audio", "canvas", "helpers/dom"], function(audio, canvas, dom) {
 
         file = upload.files[0];
         canvas.width = canvas.width; // Clear canvas
-        clearErrorMessages();
+        exports.clearErrorMessages();
 
         if (file.size > MAX_FILE_SIZE) {
-            fileToLarge(file.size);
+            exports.fileToLarge(file.size);
             return;
         }
 
@@ -63,8 +78,7 @@ define(["audio", "canvas", "helpers/dom"], function(audio, canvas, dom) {
         }
     };
 
-    upload.addEventListener('change', processUpload);
+    upload.addEventListener('change', exports.processUpload);
 
-    return {
-    };
+    return exports;
 });
