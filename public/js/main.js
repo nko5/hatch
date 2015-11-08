@@ -3,15 +3,19 @@
 requirejs.config({
     paths: {
         q: [
-            "lib/q"
+            "../components/q/q"
         ],
         "q-xhr": [
-            "lib/q-xhr"
+            "../components/q-xhr/q-xhr"
+        ],
+        wavesurfer: [
+          '../components/wavesurfer/wavesurfer.amd'
         ]
     }
 });
 
-require(["canvas"], function(canvas) {
+require(["upload", "player"], function(upload, player) {
     "use strict";
-    console.log("Canvas module loaded", canvas);
+    console.log("Upload module loaded", upload);
+    console.log("Player module loaded", player);
 });

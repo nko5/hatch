@@ -10,12 +10,11 @@
     "chai": "^3.4.0",
     "express": "^4.13.3",
     "jade": "^1.11.0",
-    "mocha": "^2.3.3",
-    "q": "^1.4.1",
-    "q-xhr": "^1.0.0",
-    "requirejs": "^2.1.20"
+    "jsdoc": "^3.3.3",
+    "mocha": "^2.3.3"
   },
   "scripts": {
+    "doc": "jsdoc -r public/js/ -d ./docs/",
     "start": "node app.js",
     "postinstall": "node scripts/postinstall.js"
   },
