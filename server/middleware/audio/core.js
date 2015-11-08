@@ -5,7 +5,7 @@
     baudio = require('baudio');
     Writable = require('stream').Writable;
     BrowserStream = new Writable();
-    
+
     makeApi = function(audio) {
         // TODO: Cleanup
         var hex2rgb, parseInput, i, MAX_RECORD_TIME, base64stream;
@@ -107,8 +107,8 @@
             /*
             audioInput.play();
             */
-            path = __dirname + "/../../../public/sound.wav";
-            ps = audioInput.record(path, {c: 2, t: 'wav'});
+            path = __dirname + "/../../../public/sound.mp3";
+            ps = audioInput.record(path, {c: 2, t: 'mp3'});
             console.log("Written to " + path, ps.spawnargs.join(' '));
 
             base64stream = (function() {
