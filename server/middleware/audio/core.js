@@ -1,11 +1,8 @@
 (function(audioGlobal) {
     "use strict";
-    var baudio, Writable, BrowserStream, makeApi, isNode, isAMD, loadDependencies;
+    var baudio, makeApi, isNode, isAMD, loadDependencies;
 
     baudio = require('baudio');
-    Writable = require('stream').Writable;
-    BrowserStream = new Writable();
-
     makeApi = function(audio) {
         // TODO: Cleanup
         var hex2rgb, parseInput, i, MAX_RECORD_TIME, base64stream;
@@ -68,14 +65,6 @@
         audio.loop = function(pixelArray, io) {
             var parse, shallPlay, audioInput, b, path, ps, index;
 
-            BrowserStream._write = function(chunk, enc, next) {
-                var string;
-
-                string = chunk.toString("base64");
-                io.sockets.emit("news", string);
-                next();
-            };
-
             pixelArray = pixelArray;
             parse = parseInput(pixelArray);
             shallPlay = parse.shallPlay;
@@ -103,7 +92,7 @@
                 index = Math.floor(parse.length * Math.random());
                 b = audio.playSound(parse[index].g * parse[index].b, 1, 1 / parse[index].r);
             }
-            b.pipe(BrowserStream);
+            // Defined in ./socket: audio.send(b.pipe);
             /*
             audioInput.play();
             */
@@ -120,6 +109,8 @@
 
             return base64stream;
         };
+        
+        return audio;
     };
 
     isNode = typeof module !== "undefined" && module.exports && typeof require === "function";
