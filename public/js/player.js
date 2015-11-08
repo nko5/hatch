@@ -34,13 +34,13 @@ define(["wavesurfer"], function(WaveSurfer) {
   };
 
   loadFromBase64 = function(base64) {
-      var arrayBuffer;
+      //var arrayBuffer;
 
       //base64 = "data:audio/mp3;base64," + base64;
 
-      arrayBuffer = base64ToArrayBuffer(base64);
-      wavesurfer.loadArrayBuffer(arrayBuffer);
-      //wavesurfer.load('../test.wav');
+      //arrayBuffer = base64ToArrayBuffer(base64);
+      //wavesurfer.loadArrayBuffer(arrayBuffer);
+      wavesurfer.load('../sound.mp3');
   };
 
   document.querySelector('#play_stop').addEventListener('click', wavesurfer.playPause.bind(wavesurfer));

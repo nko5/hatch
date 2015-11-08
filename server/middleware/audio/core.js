@@ -65,7 +65,8 @@
               return Math.sin(t * pixel.r * Math.PI * pixel.g) +
                   Math.sin(t * pixel.b) * (t % pixel.index > pixel.a);
             });
-            audioInput.play();
+            //audioInput.play();
+            audioInput.record("public/sound.mp3");
 
             /*
             setTimeout(function(){
