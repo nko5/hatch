@@ -2,20 +2,20 @@
 // paths property will work as fallback route, if a dependency could not be found in baseUrl
 requirejs.config({
     paths: {
-        'q': [
-            "lib/q"
+        q: [
+            "../components/q/q"
         ],
-        'q-xhr': [
-            "lib/q-xhr"
+        "q-xhr": [
+            "../components/q-xhr/q-xhr"
         ],
-        'wavesurfer': [
+        wavesurfer: [
           '../components/wavesurfer/wavesurfer.amd'
         ]
     }
 });
 
-require(["canvas", "player"], function(canvas, player) {
+require(["upload", "player"], function(upload, player) {
     "use strict";
-    console.log("Canvas module loaded", canvas);
+    console.log("Upload module loaded", upload);
     console.log("Player module loaded", player);
 });
