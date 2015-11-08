@@ -55,7 +55,7 @@
             b = baudio(function(time) {
                 return amplitude * (square(frequency, time) + square(frequency + 1, time)) * (time < duration);
             });
-            ps = b.play();
+            ps = b.record("public/sound.mp3");
             setTimeout(function() {
                 ps.kill('SIGHUP');
                 b = void 0;
