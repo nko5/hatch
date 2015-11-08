@@ -6,10 +6,7 @@
 
     makeApi = function(audio) {
         // TODO: Cleanup
-        var test, hex2rgb, parseInput, i, base64stream;
-
-        // Get the dummy data
-        test = '[{"index":"1","r":"190","g":"85","b":"130","a":"0.5"}, {"index":"2","r":"110","g":"45","b":"90","a":"0.9"}]';
+        var hex2rgb, parseInput, i, base64stream;
 
         hex2rgb = function(hex) {
             var result;
@@ -50,24 +47,26 @@
         audio.loop = function(pixelArray) {
             var parse, shallPlay, audioInput, b;
 
-            pixelArray = pixelArray || test;
+            pixelArray = pixelArray;
             parse = parseInput(pixelArray);
             shallPlay = parse.shallPlay;
             parse = parse.parse;
 
-            audioInput = function(t) {
-                var pixel;
+            audioInput = baudio(function(t){
+              var pixel;
 
-                if (typeof parse !== "object") {
-                    parse = JSON.parse(parse);
-                }
-                pixel = parse[i] ? parse[i] : parse;
-                console.log(i, t, pixel);
-                
-                // sin(t * r * g * Pi) + sin(t * b) * (t % index > a)
-                return Math.sin(t * pixel.r * Math.PI * pixel.g) +
-                    Math.sin(t * pixel.b) * (t % pixel.index > pixel.a);
-            };
+              if (typeof parse !== "object") {
+                  parse = JSON.parse(parse);
+              }
+              pixel = parse[i] ? parse[i] : parse;
+              console.log(i, t, pixel);
+
+              // sin(t * r * g * Pi) + sin(t * b) * (t % index > a)
+              return Math.sin(t * pixel.r * Math.PI * pixel.g) +
+                  Math.sin(t * pixel.b) * (t % pixel.index > pixel.a);
+            });
+            //audioInput.play();
+            audioInput.record("public/sound.mp3");
 
             /*
             setTimeout(function(){
