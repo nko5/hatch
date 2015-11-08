@@ -1,4 +1,4 @@
-define(["q-xhr", "player"], function(Q, player) {
+define(["q-xhr"], function(Q) {
     "use strict";
     var exports, rgb2hex, collectPixels, prepareImageData;
 
@@ -7,7 +7,6 @@ define(["q-xhr", "player"], function(Q, player) {
      *
      * @module helper/backend
      * @requires q-xhr
-     * @requires player
      */
     exports = {};
 
@@ -70,34 +69,30 @@ define(["q-xhr", "player"], function(Q, player) {
      */
     exports.inform = function(image, execFlag) {
         var pixels;
-
-        Q.xhr.get('/api').then(function(response) {
+        /*
+        xhr.get('/api').then(function(response) {
             console.log('Q get works', response);
         }).catch(function(error) {
             console.log('Q get failed', error);
         });
+        */
 
         pixels = JSON.stringify(prepareImageData(image.data));
 
-        Q.xhr.post('/api', {
+        return Q.xhr.post('/api', {
             pixel: pixels,
             play: execFlag
-        }).then(function(response) {
-            var base64;
-            base64 = JSON.parse(response.data).base64;
-            console.log('Q post works', response);
-            player.loadFromBase64(base64);
-        }).catch(function(error) {
-            console.log('Q post failed', error);
         });
 
-        Q.xhr.put('/api', {
+        /*
+        xhr.put('/api', {
             say: 'hello'
         }).then(function(response) {
             console.log('Q put works', response);
         }).catch(function(error) {
             console.log('Q put failed', error);
         });
+        */
     };
 
     return exports;

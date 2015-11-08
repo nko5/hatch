@@ -17,11 +17,15 @@ define(["testHelper"], function(testHelper) {
             }
         });
 
-        afterEach("restores sandbox", function() {
+        afterEach("restores sandbox and removes node elements", function() {
             sandbox.restore();
             while(node.firstChild) {
                 node.removeChild(node.firstChild);
             }
+        });
+
+        after("clean up injector", function() {
+            injector.clean("helpers/dom").clean("audio").clean("canvas");
         });
 
         it("clears error messages", function(done) {
