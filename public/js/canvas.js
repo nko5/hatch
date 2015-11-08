@@ -1,3 +1,10 @@
+/**
+ * Draws an uploaded image on the canvas element.
+ *
+ * @module canvas
+ * @requires q-xhr
+ * @requires helper/dom
+ */
 define(["q-xhr", "helpers/dom"], function(Q, dom) {
     "use strict";
     var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, rgb2hex, prepareImageData, informBackend, processAudio, processImage, processUpload;
