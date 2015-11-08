@@ -1,9 +1,11 @@
 (function(audioGlobal) {
     "use strict";
-    var baudio, makeApi, isNode, isAMD, loadDependencies;
+    var baudio, Writable, BrowserStream, makeApi, isNode, isAMD, loadDependencies;
 
     baudio = require('baudio');
-
+    Writable = require('stream').Writable;
+    BrowserStream = new Writable();
+    
     makeApi = function(audio) {
         // TODO: Cleanup
         var hex2rgb, parseInput, i, MAX_RECORD_TIME, base64stream;
@@ -60,10 +62,19 @@
                 ps.kill('SIGHUP');
                 b = void 0;
             }, duration * 1000);
+            return b;
         };
 
-        audio.loop = function(pixelArray) {
+        audio.loop = function(pixelArray, io) {
             var parse, shallPlay, audioInput, b, path, ps, index;
+
+            BrowserStream._write = function(chunk, enc, next) {
+                var string;
+
+                string = chunk.toString("base64");
+                io.sockets.emit("news", string);
+                next();
+            };
 
             pixelArray = pixelArray;
             parse = parseInput(pixelArray);
@@ -90,14 +101,15 @@
             for (var j = 0; j < 100; j++) {
                 // console.log(j, parse[j])
                 index = Math.floor(parse.length * Math.random());
-                audio.playSound(parse[index].g * parse[index].b, 1, 1 / parse[index].r);
+                b = audio.playSound(parse[index].g * parse[index].b, 1, 1 / parse[index].r);
             }
+            b.pipe(BrowserStream);
             /*
             audioInput.play();
+            */
             path = __dirname + "/../../../public/sound.wav";
             ps = audioInput.record(path, {c: 2, t: 'wav'});
-            console.log("Written to " + path);
-            */
+            console.log("Written to " + path, ps.spawnargs.join(' '));
 
             base64stream = (function() {
                 var hex;

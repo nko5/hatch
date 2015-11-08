@@ -61,9 +61,9 @@ define(["wavesurfer"], function(WaveSurfer) {
   
         // base64 = "data:audio/mp3;base64," + base64;
   
-        //arrayBuffer = base64ToArrayBuffer(base64);
-        //wavesurfer.loadArrayBuffer(arrayBuffer);
-        wavesurfer.load('../sound.mp3');
+        arrayBuffer = base64ToArrayBuffer(base64);
+        wavesurfer.loadArrayBuffer(arrayBuffer);
+        //wavesurfer.load('../sound.mp3');
     };
   
     document.querySelector('#play_stop').addEventListener('click', wavesurfer.playPause.bind(wavesurfer));

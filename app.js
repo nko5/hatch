@@ -1,8 +1,9 @@
-var express, baudio, app, bodyParser, audioMiddleware, env, port;
+var express, app, server, io, bodyParser, audioMiddleware, env, port;
 
 express = require('express');
-baudio = require('baudio');
 app = express();
+server = require('http').Server(app);
+io = require('socket.io')(server);
 bodyParser = require('body-parser');
 audioMiddleware = require('./server/middleware/audio');
 
@@ -29,7 +30,7 @@ app.route('/api')
     .post(function(req, res) {
         var b64;
 
-        b64 = audioMiddleware.loop(req.body);
+        b64 = audioMiddleware.loop(req.body, io);
         res.send(JSON.stringify({'base64': b64}));
     })
     .put(function(req, res) {
@@ -38,4 +39,10 @@ app.route('/api')
 
 port = 8080;
 app.listen(port);
+
+io.on('connection', function() {
+    console.log('Hello, socket.io!');
+});
+server.listen(7777);
+
 console.log('Express server started on port %s', port);
