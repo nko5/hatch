@@ -39,3 +39,7 @@ including it in your site:
 
 If you have any issues, we're on IRC in #nodeknockout on freenode, email us at
 <help@nodeknockout.com>, or tweet [@nodeknockout](https://twitter.com/nodeknockout).
+
+## Documentation
+
+To generate documentation just run `npm run doc` and look into `docs/index.html`.
