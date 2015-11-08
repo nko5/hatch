@@ -63,8 +63,18 @@ define(["wavesurfer"], function(WaveSurfer) {
         // base64 = "data:audio/mp3;base64," + base64;
         arrayBuffer = base64ToArrayBuffer(base64);
 
-        //wavesurfer.loadArrayBuffer(arrayBuffer);
-        wavesurfer.load('../sound.mp3');
+        var source = null;
+        var context = new AudioContext;
+        var audioBuffer = arrayBuffer;
+        // source is global so we can call .noteOff() later.
+        source = context.createBufferSource();
+        source.buffer = audioBuffer.buffer;
+        source.loop = false;
+        source.connect(context.destination);
+        source.start(0); // Play immediately.
+
+        wavesurfer.loadArrayBuffer(arrayBuffer);
+        //wavesurfer.load('../sound.mp3');
         document.getElementById("play_stop").style.display = "block"
         document.getElementById("wait").style.display = "block"
     };
