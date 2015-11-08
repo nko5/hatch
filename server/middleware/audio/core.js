@@ -6,7 +6,7 @@
 
     makeApi = function(audio) {
         // TODO: Cleanup
-        var hex2rgb, parseInput, i, base64stream;
+        var hex2rgb, parseInput, i, MAX_RECORD_TIME, base64stream;
 
         hex2rgb = function(hex) {
             var result;
@@ -43,9 +43,27 @@
         };
 
         i = 0;
+        MAX_RECORD_TIME = 10;
+
+        audio.playSound = function(frequency, duration, amplitude) {
+            var square, b, ps;
+
+            square = function(frequency, time) {
+                return Math.sin(10 * time * frequency) < 0 ? -1 : 1;
+            };
+
+            b = baudio(function(time) {
+                return amplitude * (square(frequency, time) + square(frequency + 1, time)) * (time < duration);
+            });
+            ps = b.play();
+            setTimeout(function() {
+                ps.kill('SIGHUP');
+                b = void 0;
+            }, duration * 1000);
+        };
 
         audio.loop = function(pixelArray) {
-            var parse, shallPlay, audioInput, b;
+            var parse, shallPlay, audioInput, b, path, ps, index;
 
             pixelArray = pixelArray;
             parse = parseInput(pixelArray);
@@ -53,33 +71,32 @@
             parse = parse.parse;
 
             audioInput = baudio(function(t){
-              var pixel;
+              var pixel, tone;
+
+              if (t > MAX_RECORD_TIME) {
+                  audioInput.end();
+              }
 
               if (typeof parse !== "object") {
                   parse = JSON.parse(parse);
               }
               pixel = parse[i] ? parse[i] : parse;
-              console.log(i, t, pixel);
 
               // sin(t * r * g * Pi) + sin(t * b) * (t % index > a)
-              return Math.sin(t * pixel.r * Math.PI * pixel.g) +
-                  Math.sin(t * pixel.b) * (t % pixel.index > pixel.a);
+              tone = pixel.g * Math.sin(t * pixel.r * Math.PI * pixel.g) *
+                  Math.cos(t * pixel.b);
+              return tone;
             });
-            //audioInput.play();
-            audioInput.record("public/sound.mp3");
-
+            for (var j = 0; j < 100; j++) {
+                // console.log(j, parse[j])
+                index = Math.floor(parse.length * Math.random());
+                audio.playSound(parse[index].g * parse[index].b, 1, 1 / parse[index].r);
+            }
             /*
-            setTimeout(function(){
-                b = baudio(audioInput);
-                if (shallPlay) {
-                    console.log("Making noise");
-                    b.play();
-                }
-                audio.loop(JSON.stringify({
-                    pixel: parse,
-                    play: shallPlay
-                }));
-            }, 3000);
+            audioInput.play();
+            path = __dirname + "/../../../public/sound.wav";
+            ps = audioInput.record(path, {c: 2, t: 'wav'});
+            console.log("Written to " + path);
             */
 
             base64stream = (function() {
