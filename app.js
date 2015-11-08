@@ -2,7 +2,7 @@ var express, app, server, io, bodyParser, audioMiddleware, env, port;
 
 express = require('express');
 app = express();
-server = require('http').Server(app);
+server = require('http').createServer(app);
 io = require('socket.io')(server);
 bodyParser = require('body-parser');
 audioMiddleware = require('./server/middleware/audio');
