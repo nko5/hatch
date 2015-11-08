@@ -22,7 +22,7 @@ requirejs.config({
     }
 });
 
-require(["upload", "socket"], function(upload, socket) {
+require(["upload"], function(upload) {
     "use strict";
     console.log("Upload module loaded", upload);
 });
