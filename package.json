@@ -7,11 +7,9 @@
   "dependencies": {
     "baudio": "^2.1.2",
     "body-parser": "^1.14.1",
-    "chai": "^3.4.0",
     "express": "^4.13.3",
     "jade": "^1.11.0",
-    "jsdoc": "^3.3.3",
-    "mocha": "^2.3.3"
+    "jsdoc": "^3.3.3"
   },
   "scripts": {
     "doc": "jsdoc -r public/js/ -d ./docs/",

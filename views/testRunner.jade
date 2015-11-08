@@ -1,0 +1,23 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport',content='width=device-width,initial-scale=1')
+        title Mocha Tests for Node Knockout 2015 Project hatch
+        link(rel="stylesheet",type="text/css",href="tests/lib/mocha.css")
+        link(rel="stylesheet",type="text/css",href="components/skeleton/css/skeleton.css")
+        style.
+            body {
+                background-color: white;
+            }
+    body
+        h1 Mocha Tests for Node Knockout 2015 Project hatch
+        #upload
+        #player
+        #play_stop
+        #mocha
+
+        script(type="text/javascript",src="components/mocha/mocha.js")
+        script.
+            mocha.setup('bdd')
+        script(type="text/javascript",data-main='tests/test.config.js',src="components/requirejs/require.js")

@@ -1,8 +1,9 @@
-var express, baudio, app, bodyParser, audioMiddleware, env, port;
+var express, baudio, app, tests, bodyParser, audioMiddleware, env, port;
 
 express = require('express');
 baudio = require('baudio');
-app = express();
+app = express();  // Main app
+tests = express();  // Manage routes for test
 bodyParser = require('body-parser');
 audioMiddleware = require('./server/middleware/audio');
 
@@ -18,6 +19,16 @@ app.set('view engine', 'jade');
 app.get('/', function(req, res) {
     res.render('index', {});
 });
+
+tests.use('/lib', express.static(__dirname + '/tests/lib'));
+tests.use('/specs', express.static(__dirname + '/tests/specs'));
+tests.get('/test.config.js', function(req, res) {
+    res.sendFile(__dirname + '/tests/test.config.js');
+});
+tests.get('/', function(req, res) {
+    res.render('testRunner', {});
+});
+app.use('/tests', tests);  // Mount test app
 
 // tell express to use bodyParser for interpreting POST requests
 app.use(bodyParser.json({ limit: '5mb' }));  // support json bodies
