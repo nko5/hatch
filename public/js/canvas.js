@@ -2,12 +2,12 @@
  * Draws an uploaded image on the canvas element.
  *
  * @module canvas
- * @requires q-xhr
  * @requires helper/dom
+ * @requires helper/backend
  */
-define(["q-xhr", "helpers/dom"], function(Q, dom) {
+define(["helpers/dom", "helpers/backend"], function(dom, backend) {
     "use strict";
-    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, rgb2hex, prepareImageData, informBackend, processAudio, processImage, processUpload;
+    var upload, canvas, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, processAudio, processImage, processUpload;
 
     upload = document.getElementById("upload");
     canvas = document.getElementById("canvas");
@@ -39,55 +39,6 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
         }
     };
 
-    rgb2hex = function(r, g, b) {
-        if (r > 255 || g > 255 || b > 255) {
-            throw new Error("Invalid coulour: (" + r + ", " + g + ", " + b + ")");
-        }
-
-        return ((r << 16) | (g << 8) | b).toString(16);
-    };
-
-    prepareImageData = function(imageData) {
-        var pixels, i, len, pixel;
-        pixels = [];
-
-        for (i = 0, len = imageData.length; i < len; i += 4) {
-            pixel = imageData.subarray(i, i+4);
-            pixels.push(rgb2hex(pixel[0], pixel[1], pixel[2]));
-        }
-        return pixels;
-    };
-
-    informBackend = function(image, execFlag) {
-        var pixels;
-
-        Q.xhr.get('/api').then(function(response) {
-            console.log('Q get works', response);
-        }).catch(function(error) {
-            console.log('Q get failed', error);
-        });
-
-        pixels = JSON.stringify(prepareImageData(image.data));
-        console.log("Transmitting", pixels);
-
-        Q.xhr.post('/api', {
-            pixel: pixels,
-            play: execFlag
-        }).then(function(response) {
-            console.log('Q post works', response);
-        }).catch(function(error) {
-            console.log('Q post failed', error);
-        });
-
-        Q.xhr.put('/api', {
-            say: 'hello'
-        }).then(function(response) {
-            console.log('Q put works', response);
-        }).catch(function(error) {
-            console.log('Q put failed', error);
-        });
-    };
-
     processAudio = function(file) {
     };
 
@@ -107,7 +58,7 @@ define(["q-xhr", "helpers/dom"], function(Q, dom) {
                 canvas.width = canvas.offsetWidth;
                 canvas.height = canvas.offsetHeight
                 ctx.drawImage(img, 0, 0);
-                informBackend(ctx.getImageData(0, 0, img.width, img.height), false);
+                backend.inform(ctx.getImageData(0, 0, img.width, img.height), false);
             };
             // Triggers load event on img
             img.src = reader.result;
