@@ -43,6 +43,6 @@ app.listen(port);
 io.on('connection', function() {
     console.log('Hello, socket.io!');
 });
-server.listen(7777);
+server.listen(4343);
 
 console.log('Express server started on port %s', port);
