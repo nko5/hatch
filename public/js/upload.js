@@ -3,11 +3,12 @@
  *
  * @module upload
  * @requires canvas
+ * @requires audio
  * @requires helper/dom
  */
-define(["canvas", "helpers/dom"], function(canvas, dom) {
+define(["audio", "canvas", "helpers/dom"], function(audio, canvas, dom) {
     "use strict";
-    var upload, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, processAudio, processUpload;
+    var upload, MAX_FILE_SIZE, clearErrorMessages, fileToLarge, processUpload;
 
     upload = document.getElementById("upload");
     MAX_FILE_SIZE = 1 * 1000 * 1000; // 1 mB
@@ -38,9 +39,6 @@ define(["canvas", "helpers/dom"], function(canvas, dom) {
         }
     };
 
-    processAudio = function(file) {
-    };
-
     processUpload = function() {
         var audioMimeTypes, imageMimeTypes, file;
 
@@ -57,7 +55,7 @@ define(["canvas", "helpers/dom"], function(canvas, dom) {
         }
 
         if (audioMimeTypes.indexOf(file.type) > -1) {
-            processAudio(file);
+            audio.processAudio(file);
         };
 
         if (imageMimeTypes.indexOf(file.type) > -1) {

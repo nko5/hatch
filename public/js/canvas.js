@@ -1,4 +1,4 @@
-define(["helpers/dom", "helpers/backend"], function(dom, backend) {
+define(["helpers/backend"], function(backend) {
     "use strict";
     var exports, canvas, processImage;
 
@@ -6,7 +6,6 @@ define(["helpers/dom", "helpers/backend"], function(dom, backend) {
      * Draws an uploaded image on the canvas element.
      *
      * @module canvas
-     * @requires helper/dom
      * @requires helper/backend
      */
     exports = {};
