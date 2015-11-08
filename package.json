@@ -15,6 +15,7 @@
     "requirejs": "^2.1.20"
   },
   "scripts": {
+    "doc": "jsdoc public/js/*.js -d ./docs/",
     "start": "node app.js",
     "postinstall": "node scripts/postinstall.js"
   },
