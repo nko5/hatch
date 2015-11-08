@@ -11,7 +11,7 @@ requirejs.config({
     }
 });
 
-require(["canvas"], function(canvas) {
+require(["upload"], function(upload) {
     "use strict";
-    console.log("Canvas module loaded", canvas);
+    console.log("Upload module loaded", upload);
 });
