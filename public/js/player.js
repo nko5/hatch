@@ -2,7 +2,7 @@ define(["wavesurfer"], function(WaveSurfer) {
   "use strict";
 
   var wavesurfer, base64ToArrayBuffer, loadFromBlob, loadFromBase64;
-  
+
   wavesurfer = Object.create(WaveSurfer);
   console.log("WaveSurfer instance", wavesurfer, WaveSurfer);
 
@@ -22,7 +22,7 @@ define(["wavesurfer"], function(WaveSurfer) {
       binaryString = window.atob(base64);
       len = binaryString.length;
       bytes = new Uint8Array(len);
-      
+
       for (i = 0; i < len; i++) {
           bytes[i] = binaryString.charCodeAt(i);
       }
@@ -36,10 +36,11 @@ define(["wavesurfer"], function(WaveSurfer) {
   loadFromBase64 = function(base64) {
       var arrayBuffer;
 
-      // base64 = "data:audio/mp3;base64," + base64;
+      //base64 = "data:audio/mp3;base64," + base64;
 
       arrayBuffer = base64ToArrayBuffer(base64);
       wavesurfer.loadArrayBuffer(arrayBuffer);
+      //wavesurfer.load('../test.wav');
   };
 
   document.querySelector('#play_stop').addEventListener('click', wavesurfer.playPause.bind(wavesurfer));
