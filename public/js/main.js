@@ -3,10 +3,10 @@
 requirejs.config({
     paths: {
         q: [
-            "lib/q"
+            "../components/q/q"
         ],
         "q-xhr": [
-            "lib/q-xhr"
+            "../components/q-xhr/q-xhr"
         ]
     }
 });

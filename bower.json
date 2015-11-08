@@ -20,6 +20,8 @@
     "tests"
   ],
   "dependencies": {
-    "skeleton": "~2.0.4"
+    "skeleton": "~2.0.4",
+    "q-xhr": "~1.0.0",
+    "requirejs": "~2.1.20"
   }
 }
