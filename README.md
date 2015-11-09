@@ -40,6 +40,11 @@ including it in your site:
 If you have any issues, we're on IRC in #nodeknockout on freenode, email us at
 <help@nodeknockout.com>, or tweet [@nodeknockout](https://twitter.com/nodeknockout).
 
+## Tests
+
+Tests will be run after navigating to http://localhost:8080/tests.
+
 ## Documentation
 
 To generate documentation just run `npm run doc` and look into `docs/index.html`.
+Or open a browser and navigate to http://localhost:8080/docs/index.html :-)
