@@ -11,6 +11,7 @@ audio = (function() {
     loadDependencies = function(require, exports, module) {
         audioModule = module.exports = require("./audio/core");
         require("./audio/socket");
+        require("./audio/helper");
     };
 
     if (isAMD) {

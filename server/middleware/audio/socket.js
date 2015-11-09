@@ -6,7 +6,9 @@
     BrowserStream = new Writable();
 
     makeApi = function(audio) {
-        audio.send = function(ps) {
+        var send, exports;
+
+        send = function(ps) {
             BrowserStream._write = function(chunk, enc, next) {
                 var string;
 
@@ -16,6 +18,10 @@
             };
             ps.pipe(BrowserStream);
         };
+        exports = {};
+        exports.send = audio.send = send;
+
+        return exports;
     };
 
     loadDependencies = function(require, exports, module) {

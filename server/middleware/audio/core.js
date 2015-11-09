@@ -5,41 +5,7 @@
     baudio = require('baudio');
     makeApi = function(audio) {
         // TODO: Cleanup
-        var hex2rgb, parseInput, i, MAX_RECORD_TIME, base64stream;
-
-        hex2rgb = function(hex) {
-            var result;
-
-            result = /([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})/i.exec(hex);
-            //console.log("Converted", hex, result);
-            // result[0] conatins the input string hex
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        };
-
-        parseInput = function(input) {
-            var indices, parse, shallPlay;
-
-            if (typeof input === "string") {
-                parse = JSON.parse(input).pixel;
-                shallPlay = JSON.parse(input).play;
-            } else if (typeof input === "object") {
-                shallPlay = input.play;
-                indices = JSON.parse(input.pixel);
-                parse = Object.keys(indices).map(function(hex) {
-                    return hex2rgb(hex);
-                });;
-            } else {
-                throw new Error("Invalid input type", input, typeof input);
-            }
-            return {
-                parse: parse,
-                shallPlay: shallPlay
-            };
-        };
+        var i, MAX_RECORD_TIME, base64stream;
 
         i = 0;
         MAX_RECORD_TIME = 10;
@@ -66,7 +32,7 @@
             var parse, shallPlay, audioInput, b, path, ps, index;
 
             pixelArray = pixelArray;
-            parse = parseInput(pixelArray);
+            parse = audio.parseInput(pixelArray);
             shallPlay = parse.shallPlay;
             parse = parse.parse;
 
@@ -100,12 +66,12 @@
             ps = audioInput.record(path, {c: 2, t: 'mp3'});
             console.log("Written to " + path, ps.spawnargs.join(' '));
 
-            base64stream = (function() {
+            base64stream = (function(pixelArray) {
                 var hex;
 
                 hex = Object.keys(JSON.parse(pixelArray.pixel));
                 return new Buffer(hex.join(";")).toString('base64');
-            })();
+            })(pixelArray);
 
             return base64stream;
         };
