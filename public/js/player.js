@@ -1,6 +1,6 @@
 define(["wavesurfer"], function(WaveSurfer) {
     "use strict";
-    var exports, wavesurfer, base64ToArrayBuffer;
+    var exports, wavesurfer, base64ToArrayBuffer, prepareAudioContext;
 
     /**
      * Visualize audio input.
@@ -43,6 +43,42 @@ define(["wavesurfer"], function(WaveSurfer) {
         return bytes.buffer;
     };
 
+    prepareAudioContext = function(arrayBuffer) {
+        var oscillator, gain, source, context, audioBuffer, buffer;
+        
+        context = new AudioContext();
+        oscillator = context.createOscillator();
+        gain = context.createGain();
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.type = 'sine';
+        oscillator.frequency.value = 2500;
+        var step = 0;
+        var loop = setInterval(function() {
+            console.log(arrayBuffer[step]);
+            var value = Math.random() * 2000;
+            oscillator.frequency.value = value;
+            if (step >= arrayBuffer.length) {
+                clearInterval(loop);
+            }
+        }, 100);
+        oscillator.start();
+
+        audioBuffer = arrayBuffer;
+        console.log(context, audioBuffer);
+        // source is global so we can call .noteOff() later.
+        buffer = audioBuffer.buffer || context.createBuffer(2, context.sampleRate * 2.0, context.sampleRate);
+
+        console.log("Buffer", buffer);
+        source = context.createBufferSource();
+        source.buffer = buffer;
+        source.loop = true;
+        source.connect(context.destination);
+        source.start(); // Play immediately.
+        console.log(source);
+        return source;
+    };
+
     /**
      * Deal with directly uploaded audio by feeding it into WaveSurfer.
      *
@@ -55,7 +91,8 @@ define(["wavesurfer"], function(WaveSurfer) {
             console.log(event, event.target.result);
             // 23 == data prefix
             var arrayBuffer = base64ToArrayBuffer(event.target.result.slice(23));
-            wavesurfer.loadArrayBuffer(arrayBuffer);
+            var source = prepareAudioContext(arrayBuffer);
+            //wavesurfer.loadArrayBuffer(arrayBuffer);
         };
         reader.readAsDataURL(blob);
         // wavesurfer.loadBlob(blob);
@@ -73,14 +110,10 @@ define(["wavesurfer"], function(WaveSurfer) {
         arrayBuffer = base64ToArrayBuffer(base64);
 
         var source = null;
-        var context = new AudioContext;
+        var context = new AudioContext();
         var audioBuffer = arrayBuffer;
         // source is global so we can call .noteOff() later.
-        source = context.createBufferSource();
-        source.buffer = audioBuffer.buffer;
-        source.loop = false;
-        source.connect(context.destination);
-        source.start(0); // Play immediately.
+        source = prepareAudioContext(arrayBuffer);
 
         wavesurfer.loadArrayBuffer(arrayBuffer);
         //wavesurfer.load('../sound.mp3');
