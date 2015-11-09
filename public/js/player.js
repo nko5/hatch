@@ -118,7 +118,6 @@ define(["wavesurfer"], function(WaveSurfer) {
         wavesurfer.loadArrayBuffer(arrayBuffer);
         //wavesurfer.load('../sound.mp3');
         document.getElementById("play_stop").style.display = "block"
-        document.getElementById("wait").style.display = "block"
     };
 
     document.querySelector('#play_stop').addEventListener('click', wavesurfer.playPause.bind(wavesurfer));
