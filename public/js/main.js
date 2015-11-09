@@ -5,17 +5,24 @@ requirejs.config({
         q: [
             "../components/q/q"
         ],
+        socketio: [
+            "../components/socket/socket.io"
+        ],
         "q-xhr": [
             "../components/q-xhr/q-xhr"
         ],
         wavesurfer: [
           '../components/wavesurfer/wavesurfer.amd'
         ]
+    },
+    shim: {
+        socketio: {
+            exports: 'io'
+        }
     }
 });
 
-require(["upload", "player"], function(upload, player) {
+require(["upload"], function(upload) {
     "use strict";
     console.log("Upload module loaded", upload);
-    console.log("Player module loaded", player);
 });

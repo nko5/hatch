@@ -25,3 +25,7 @@ h2 {
 #canvas {
   display: inherit;
 }
+
+#play_stop, #wait {
+  display: none;
+}
