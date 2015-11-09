@@ -49,7 +49,16 @@ define(["wavesurfer"], function(WaveSurfer) {
      * @param {(File|Blob)} blob - Uploaded file.
      */
     exports.loadFromBlob = function(blob) {
-        wavesurfer.loadBlob(blob);
+        var reader = new FileReader();
+        console.log(blob, reader);
+        reader.onloadend = function(event) {
+            console.log(event, event.target.result);
+            // 23 == data prefix
+            var arrayBuffer = base64ToArrayBuffer(event.target.result.slice(23));
+            wavesurfer.loadArrayBuffer(arrayBuffer);
+        };
+        reader.readAsDataURL(blob);
+        // wavesurfer.loadBlob(blob);
     };
 
     /**
