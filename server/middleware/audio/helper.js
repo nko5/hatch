@@ -46,16 +46,13 @@
     };
 
     loadDependencies = function(require, exports, module) {
+        var audio;
         audio = require("./core");
         module.exports = makeApi(audio);
     };
 
     isNode = typeof module !== "undefined" && module.exports && typeof require === "function";
     isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
-
-    loadDependencies = function(require, exports) {
-        makeApi(exports);
-    }
 
     if (isAMD) {
         define(loadDependencies);

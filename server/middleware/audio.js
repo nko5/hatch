@@ -12,6 +12,7 @@ audio = (function() {
         audioModule = module.exports = require("./audio/core");
         require("./audio/socket");
         require("./audio/helper");
+        require("./audio/sound");
     };
 
     if (isAMD) {

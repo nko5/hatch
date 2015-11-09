@@ -45,7 +45,7 @@ app.route('/api')
     .post(function(req, res) {
         var b64;
 
-        b64 = audioMiddleware.loop(req.body, io);
+        b64 = audioMiddleware.image2sound(req.body, io);
         res.send(JSON.stringify({'base64': b64}));
     })
     .put(function(req, res) {
