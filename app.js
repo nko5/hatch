@@ -1,9 +1,10 @@
-var express, cors, app, tests, server, io, bodyParser, audioMiddleware, env, port, socketPort;
+var express, cors, app, tests, docs, server, io, bodyParser, audioMiddleware, env, port, socketPort;
 
 express = require('express');
 cors = require('cors');
 app = express();  // Main app
 tests = express();  // Manage routes for test
+docs = express();  // Manage routes for documentation
 server = require('http').createServer(app);
 io = require('socket.io').listen(server);
 bodyParser = require('body-parser');
@@ -32,10 +33,7 @@ if ('development' === env) {
 
 app.set('view engine', 'jade');
 
-app.get('/', function(req, res) {
-    res.render('index', {});
-});
-
+// test app
 tests.use('/lib', express.static(__dirname + '/tests/lib'));
 tests.use('/specs', express.static(__dirname + '/tests/specs'));
 tests.get('/test.config.js', function(req, res) {
@@ -45,6 +43,21 @@ tests.get('/', function(req, res) {
     res.render('testRunner', {});
 });
 app.use('/tests', tests);  // Mount test app
+
+// documentation app
+docs.use('/fonts', express.static(__dirname + '/docs/fonts'));
+docs.use('/scripts', express.static(__dirname + '/docs/scripts'));
+docs.use('/styles', express.static(__dirname + '/docs/styles'));
+docs.get('/:file', function(req, res) {
+    var file = req.params.file;
+    res.sendFile(__dirname + '/docs/' + file);
+});
+app.use('/docs', docs);  // Mount documentation app
+
+// Normal app
+app.get('/', function(req, res) {
+    res.render('index', {});
+});
 
 // tell express to use bodyParser for interpreting POST requests
 app.use(bodyParser.json({ limit: '5mb' }));  // support json bodies
